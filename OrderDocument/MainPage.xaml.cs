@@ -16,29 +16,29 @@ public partial class MainPage : ContentPage
         listView.ItemsSource = new List<object>()
         {
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
             new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Tamirys", Age = 22 },
+            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
         };
     }
 
@@ -52,10 +52,10 @@ public partial class MainPage : ContentPage
         string filePath = fileResult.FullPath;
         string copyPath = $"{FileSystem.AppDataDirectory}/documents/{fileResult.FileName}";
 
-        var files = Directory.GetFiles($"{FileSystem.AppDataDirectory}/documents/").ToList();
-
         if (!Directory.Exists($"{FileSystem.AppDataDirectory}/documents/"))
             Directory.CreateDirectory($"{FileSystem.AppDataDirectory}/documents/");
+
+        var files = Directory.GetFiles($"{FileSystem.AppDataDirectory}/documents/").ToList();
 
         if (files.Select(x => x.Split('/').Last()).Contains(fileResult.FileName))
         {
