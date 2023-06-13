@@ -128,6 +128,7 @@
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
+        <Setter />
     </Style>
 
     <Style TargetType="Frame">
