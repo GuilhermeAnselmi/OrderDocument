@@ -125,35 +125,9 @@
                             <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray300}, Dark={StaticResource Gray600}}" />
                         </VisualState.Setters>
                     </VisualState>
-                    <!--<VisualState x:Name="Focused">
-                        <VisualState.Setters>
-                            <Setter Property="BackgroundColor" Value="Red" />
-                        </VisualState.Setters>
-                    </VisualState>-->
                 </VisualStateGroup>
             </VisualStateGroupList>
         </Setter>
-        <!--<Setter Property="VisualStateManager.VisualStateGroups">
-            <VisualStateGroupList>
-                <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Focused">
-                        <VisualState.Setters>
-                            <Setter Property="VisualStateManager.VisualStateGroups">
-                                <VisualStateGroupList>
-                                    <VisualStateGroup x:Name="CommonStates">
-                                        <VisualState x:Name="Focused">
-                                            <VisualState.Setters>
-                                                <Setter Property="BackgroundColor" Value="Red" />
-                                            </VisualState.Setters>
-                                        </VisualState>
-                                    </VisualStateGroup>
-                                </VisualStateGroupList>
-                            </Setter>
-                        </VisualState.Setters>
-                    </VisualState>
-                </VisualStateGroup>
-            </VisualStateGroupList>
-        </Setter>-->
     </Style>
 
     <Style TargetType="Frame">
