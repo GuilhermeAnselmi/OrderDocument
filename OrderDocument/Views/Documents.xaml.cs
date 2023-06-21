@@ -78,4 +78,40 @@ public partial class Documents : ContentPage
 
         DisplayAlert("All Items", string.Join("\n\n", files), "Ok");
     }
+
+    private async void RenameFolder(object sender, EventArgs e)
+    {
+        var newFolderName = await DisplayPromptAsync("Renomear Pasta", "Novo nome da pasta", "Renomear", "Cancelar", "Documentos Pessoais");
+
+        if (string.IsNullOrEmpty(newFolderName))
+            return;
+
+        if (newFolderName.ToLower() == FolderName.ToLower())
+        {
+            await DisplayAlert("Não Renomeado", "Não é possível renomear a pasta para o mesmo nome.", "Ok");
+
+            return;
+        }
+
+        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+        string newPath = Path.Combine(Common.GetDocumentPath(), newFolderName);
+
+        Directory.Move(path, newPath);
+
+        await Navigation.PopAsync();
+    }
+
+    private async void DeleteFolder(object sender, EventArgs e)
+    {
+        var result = await DisplayAlert("Excluir Pasta", $"Deseja realmente excluir a pasta \"{FolderName}\"?\nEssa ação é imediata e irreversível.\nTodos os arquivos nessa pasta serão excluidos.", "Sim", "Não");
+
+        if (!result)
+            return;
+
+        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+
+        Directory.Delete(path, true);
+
+        await Navigation.PopAsync();
+    }
 }

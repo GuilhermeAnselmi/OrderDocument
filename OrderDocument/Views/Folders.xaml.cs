@@ -8,9 +8,14 @@ public partial class Folders : ContentPage
 	public Folders()
 	{
 		InitializeComponent();
+	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
 
         FillList();
-	}
+    }
 
     private void FillList()
     {

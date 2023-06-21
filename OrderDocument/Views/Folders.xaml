@@ -3,19 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OrderDocument.Views.Folders"
              Title="Folders">
-    <StackLayout Spacing="25" Padding="30">
-
-        <ListView x:Name="listFolder" SelectionMode="None" SeparatorVisibility="None">
+    <StackLayout Spacing="15" Padding="15">
+        <ListView x:Name="listFolder" SelectionMode="None" SeparatorVisibility="None" VerticalOptions="FillAndExpand" RowHeight="65">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Margin="0, 1" Padding="5, 5" HorizontalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
+                        <StackLayout Margin="0, 2" VerticalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
                             <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="OpenFolder" NumberOfTapsRequired="1" />
                             </StackLayout.GestureRecognizers>
-                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                                <Label Padding="15, 10" Text="{Binding FolderName}" />
-                            </StackLayout>
+                            <Label Margin="20, 0" VerticalOptions="CenterAndExpand" Text="{Binding FolderName}" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
@@ -23,6 +20,5 @@
         </ListView>
 
         <Button Text="Criar Pasta" Clicked="CreateFolder" />
-
     </StackLayout>
 </ContentPage>
