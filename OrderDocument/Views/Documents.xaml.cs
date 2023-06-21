@@ -1,46 +1,45 @@
+using Microsoft.Maui.Storage;
+using OrderDocument.Model;
+using OrderDocument.Resources;
+
 namespace OrderDocument.Views;
 
 public partial class Documents : ContentPage
 {
-	public Documents()
+    private string FolderName;
+
+	public Documents(string folderName)
 	{
 		InitializeComponent();
+
+        FolderName = folderName;
+
+        this.Title = FolderName;
 
         FillList();
 	}
 
     private void FillList()
     {
-        listView.ItemsSource = new List<object>()
+        var path = Path.Combine(Common.GetDocumentPath(), FolderName);
+
+        var listFiles = new List<FileModel>();
+
+        var files = Directory.GetFiles(path);
+
+        files.ToList().ForEach(file => 
         {
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 24 },
-            new { Source = "D:\\Downloads\\heart.png", Name = "Guilherme", Age = 22 },
-        };
+            listFiles.Add(new FileModel()
+            {
+                FileName = file.Split('\\').Last(),
+                Source = file
+            });
+        });
+
+        listFile.ItemsSource = listFiles;
     }
 
-    private async void OpenExplorer(object sender, EventArgs e)
+    private async void ImportFile(object sender, EventArgs e)
     {
         var fileResult = await FilePicker.PickAsync();
 
@@ -48,16 +47,12 @@ public partial class Documents : ContentPage
             return;
 
         string filePath = fileResult.FullPath;
-        string copyPath = $"{FileSystem.AppDataDirectory}/documents/{fileResult.FileName}";
+        string copyPath = Path.Combine(Common.GetDocumentPath(), FolderName, fileResult.FileName);
 
-        if (!Directory.Exists($"{FileSystem.AppDataDirectory}/documents/"))
-            Directory.CreateDirectory($"{FileSystem.AppDataDirectory}/documents/");
-
-        var files = Directory.GetFiles($"{FileSystem.AppDataDirectory}/documents/").ToList();
+        var files = Directory.GetFiles(Path.Combine(Common.GetDocumentPath(), FolderName)).ToList();
 
         if (files.Select(x => x.Split('/').Last()).Contains(fileResult.FileName))
         {
-
             var response = await DisplayAlert("Substituir arquivo?", "Já existe um arquivo com esse nome, deseja substituir o arquivo?", "Sim", "Não");
 
             if (!response)
@@ -68,6 +63,8 @@ public partial class Documents : ContentPage
 
         File.Copy(filePath, copyPath);
 
+        FillList();
+
         //using (var stream = await fileResult.OpenReadAsync())
         //{
 
@@ -76,13 +73,9 @@ public partial class Documents : ContentPage
 
     private void ViewExplorer(object sender, EventArgs e)
     {
-        if (!Directory.Exists($"{FileSystem.AppDataDirectory}/documents/"))
-            return;
-
-        var files = Directory.GetFiles($"{FileSystem.AppDataDirectory}/documents/").ToList();
+        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+        var files = Directory.GetFiles(path).ToList();
 
         DisplayAlert("All Items", string.Join("\n\n", files), "Ok");
-
-        Directory.Delete($"{FileSystem.AppDataDirectory}/documents/", true);
     }
 }

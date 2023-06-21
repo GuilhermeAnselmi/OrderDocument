@@ -5,16 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:OrderDocument"
     xmlns:views="clr-namespace:OrderDocument.Views"
-    Shell.FlyoutBehavior="Flyout">
+    Shell.FlyoutBehavior="Disabled">
 
     <ShellContent
-        Title="Home"
+        Title="Pastas"
         ContentTemplate="{DataTemplate views:Folders}"
-        Route="MainPage" />
-
+        Route="Folders" />
+    
     <ShellContent
-        Title="Test"
+        Title="Documentos"
         ContentTemplate="{DataTemplate views:Documents}"
-        Route="Temp" />
+        Route="Documents" />
 
 </Shell>

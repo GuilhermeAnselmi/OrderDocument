@@ -15,10 +15,22 @@ public static class MauiProgram
 				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
 			});
 
+		InitializeParametersApp();
+
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
 
         return builder.Build();
 	}
+
+	private static void InitializeParametersApp()
+	{
+		var path = $"{FileSystem.AppDataDirectory}/documents/";
+
+		if (!Directory.Exists(path))
+		{
+			Directory.CreateDirectory(path);
+		}
+    }
 }

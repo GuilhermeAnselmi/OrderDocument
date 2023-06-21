@@ -5,19 +5,22 @@
              Title="Folders">
     <StackLayout Spacing="25" Padding="30">
 
-        <ListView x:Name="listFolder">
+        <ListView x:Name="listFolder" SelectionMode="None" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Spacing="10" Padding="10" Orientation="Horizontal">
-                            <Label Text="{Binding FolderName}" />
+                        <StackLayout Margin="0, 1" Padding="5, 5" HorizontalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OpenFolder" NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                <Label Padding="15, 10" Text="{Binding FolderName}" />
+                            </StackLayout>
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <Entry Placeholder="Teste" />
 
         <Button Text="Criar Pasta" Clicked="CreateFolder" />
 
