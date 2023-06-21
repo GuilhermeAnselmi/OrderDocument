@@ -1,4 +1,3 @@
-using Microsoft.Maui.Storage;
 using OrderDocument.Model;
 using OrderDocument.Resources;
 
@@ -46,12 +45,19 @@ public partial class Documents : ContentPage
         if (fileResult == null)
             return;
 
+        var fileName = await DisplayPromptAsync("Nome", "Nome do arquivo", "Salvar", "Cancelar", "Meu RG");
+
+        if (string.IsNullOrEmpty(fileName))
+            return;
+
+        fileName = $"{fileName}.{fileResult.FileName.Split('.').Last()}";
+
         string filePath = fileResult.FullPath;
-        string copyPath = Path.Combine(Common.GetDocumentPath(), FolderName, fileResult.FileName);
+        string copyPath = Path.Combine(Common.GetDocumentPath(), FolderName, fileName);
 
         var files = Directory.GetFiles(Path.Combine(Common.GetDocumentPath(), FolderName)).ToList();
 
-        if (files.Select(x => x.Split('/').Last()).Contains(fileResult.FileName))
+        if (files.Select(x => x.Replace("\\", "/").Split('/').Last()).Contains(fileName))
         {
             var response = await DisplayAlert("Substituir arquivo?", "Já existe um arquivo com esse nome, deseja substituir o arquivo?", "Sim", "Não");
 

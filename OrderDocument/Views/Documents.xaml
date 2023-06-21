@@ -26,7 +26,7 @@
                                 <TapGestureRecognizer Tapped="ViewExplorer" NumberOfTapsRequired="1" />
                             </StackLayout.GestureRecognizers>
                             <Image Source="{Binding Source}" WidthRequest="50" MaximumHeightRequest="60" VerticalOptions="CenterAndExpand" />
-                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                            <StackLayout Margin="5, 0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
                                 <Label Text="{Binding FileName}" />
                             </StackLayout>
                         </StackLayout>

@@ -23,7 +23,7 @@ public partial class Folders : ContentPage
 
         var listDirectories = new List<FolderModel>();
 
-        var directories = Directory.GetDirectories(path).Select(x => x.Split('/').Last());
+        var directories = Directory.GetDirectories(path).Select(x => x.Replace("\\", "/").Split('/').Last());
         directories.ToList().ForEach(directory => listDirectories.Add(new FolderModel() { FolderName = directory }));
 
         listFolder.ItemsSource = listDirectories;
