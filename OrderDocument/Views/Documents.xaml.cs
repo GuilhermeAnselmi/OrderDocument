@@ -31,7 +31,7 @@ public partial class Documents : ContentPage
         {
             listFiles.Add(new FileModel()
             {
-                FileName = file.Split('\\').Last(),
+                FileName = file.Split('/').Last(),
                 Source = file
             });
         });

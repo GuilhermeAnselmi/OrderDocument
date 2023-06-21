@@ -5,21 +5,21 @@
              Title="Documents"
              NavigationPage.HasBackButton="True">
     <StackLayout Spacing="25" Padding="30">
-        <ListView x:Name="listFile" SelectionMode="None">
+        <ListView x:Name="listFile" SelectionMode="None" SeparatorVisibility="None">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Frame Margin="0, 2" HorizontalOptions="FillAndExpand" Padding="5, 5" BackgroundColor="{StaticResource Gray700}" BorderColor="Black" CornerRadius="5">
-                            <Frame.GestureRecognizers>
+                        <StackLayout Margin="0, 1" Padding="5, 5" HorizontalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
+                            <StackLayout.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="ViewExplorer" NumberOfTapsRequired="1" />
-                            </Frame.GestureRecognizers>
-                            <StackLayout Padding="15, 0" Orientation="Horizontal">
-                                <Image Source="{Binding Source}" WidthRequest="50" />
-                                <StackLayout Margin="5,15,5,15">
+                            </StackLayout.GestureRecognizers>
+                            <StackLayout Padding="5, 0" Orientation="Horizontal" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                <Image Source="{Binding Source}" WidthRequest="50" MaximumHeightRequest="30" />
+                                <StackLayout Padding="10, 0" VerticalOptions="CenterAndExpand">
                                     <Label Text="{Binding FileName}" />
                                 </StackLayout>
                             </StackLayout>
-                        </Frame>
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
