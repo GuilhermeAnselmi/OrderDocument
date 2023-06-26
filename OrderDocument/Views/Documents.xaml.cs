@@ -18,6 +18,7 @@ public partial class Documents : ContentPage
         FillList();
 	}
 
+    #region Internal Methods
     private void FillList()
     {
         var path = Path.Combine(Common.GetDocumentPath(), FolderName);
@@ -30,12 +31,49 @@ public partial class Documents : ContentPage
         {
             listFiles.Add(new FileModel()
             {
-                FileName = file.Split('/').Last(),
+                FileName = file.Replace("\\", "/").Split('/').Last(),
                 Source = file
             });
         });
 
         listFile.ItemsSource = listFiles;
+    }
+    #endregion
+
+    private async void RenameFolder(object sender, EventArgs e)
+    {
+        var newFolderName = await DisplayPromptAsync("Renomear Pasta", "Novo nome da pasta", "Renomear", "Cancelar", "Documentos Pessoais");
+
+        if (string.IsNullOrEmpty(newFolderName))
+            return;
+
+        if (newFolderName.ToLower() == FolderName.ToLower())
+        {
+            await DisplayAlert("Não Renomeado", "Não é possível renomear a pasta para o mesmo nome.", "Ok");
+
+            return;
+        }
+
+        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+        string newPath = Path.Combine(Common.GetDocumentPath(), newFolderName);
+
+        Directory.Move(path, newPath);
+
+        await Navigation.PopAsync();
+    }
+
+    private async void DeleteFolder(object sender, EventArgs e)
+    {
+        var result = await DisplayAlert("Excluir Pasta", $"Deseja realmente excluir a pasta \"{FolderName}\"?\nEssa ação é imediata e irreversível.\nTodos os arquivos nessa pasta serão excluidos.", "Sim", "Não");
+
+        if (!result)
+            return;
+
+        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+
+        Directory.Delete(path, true);
+
+        await Navigation.PopAsync();
     }
 
     private async void ImportFile(object sender, EventArgs e)
@@ -77,47 +115,56 @@ public partial class Documents : ContentPage
         //}
     }
 
-    private void ViewExplorer(object sender, EventArgs e)
+    private async void OpenFile(object sender, EventArgs e)
     {
-        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
-        var files = Directory.GetFiles(path).ToList();
+        var file = (FileModel)((StackLayout)sender).BindingContext;
 
-        DisplayAlert("All Items", string.Join("\n\n", files), "Ok");
+        await Launcher.OpenAsync(new OpenFileRequest()
+        {
+            Title = file.FileName,
+            File = new ReadOnlyFile(file.Source)
+        });
     }
 
-    private async void RenameFolder(object sender, EventArgs e)
+    private async void RenameFile(object sender, EventArgs e)
     {
-        var newFolderName = await DisplayPromptAsync("Renomear Pasta", "Novo nome da pasta", "Renomear", "Cancelar", "Documentos Pessoais");
+        var file = (FileModel)((SwipeItem)sender).BindingContext;
 
-        if (string.IsNullOrEmpty(newFolderName))
+        var newFileName = await DisplayPromptAsync("Renomear Arquivo", "Novo nome do arquivo", "Renomear", "Cancelar", "RG / CPF");
+
+        if (string.IsNullOrEmpty(newFileName))
             return;
 
-        if (newFolderName.ToLower() == FolderName.ToLower())
+        var files = Directory.GetFiles(Path.Combine(Common.GetDocumentPath(), FolderName));
+
+        foreach (var localFile in files)
         {
-            await DisplayAlert("Não Renomeado", "Não é possível renomear a pasta para o mesmo nome.", "Ok");
+            if (newFileName.ToLower() == localFile.Replace("\\", "/").Split('/').Last().Split('.').First().ToLower())
+            {
+                await DisplayAlert("Não Renomeado", "Já existe um arquivo com esse nome.", "Ok");
 
-            return;
+                return;
+            }
         }
 
-        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
-        string newPath = Path.Combine(Common.GetDocumentPath(), newFolderName);
+        string newPath = Path.Combine(Common.GetDocumentPath(), FolderName, $"{newFileName}.{file.FileName.Split('.').Last()}");
 
-        Directory.Move(path, newPath);
+        File.Move(file.Source, newPath, true);
 
-        await Navigation.PopAsync();
+        FillList();
     }
 
-    private async void DeleteFolder(object sender, EventArgs e)
+    private async void DeleteFile(object sender, EventArgs e)
     {
-        var result = await DisplayAlert("Excluir Pasta", $"Deseja realmente excluir a pasta \"{FolderName}\"?\nEssa ação é imediata e irreversível.\nTodos os arquivos nessa pasta serão excluidos.", "Sim", "Não");
+        var file = (FileModel)((SwipeItem)sender).BindingContext;
+
+        var result = await DisplayAlert("Excluir Arquivo", $"Deseja realmente excluir o arquivo \"{file.FileName}\"?\nEssa ação é imediata e irreversível.", "Sim", "Não");
 
         if (!result)
             return;
 
-        string path = Path.Combine(Common.GetDocumentPath(), FolderName);
+        File.Delete(file.Source);
 
-        Directory.Delete(path, true);
-
-        await Navigation.PopAsync();
+        FillList();
     }
 }

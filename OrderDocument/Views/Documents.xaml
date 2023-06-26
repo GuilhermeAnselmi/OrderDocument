@@ -21,21 +21,36 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Margin="0, 2" Padding="10, 0" Orientation="Horizontal" VerticalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
-                            <StackLayout.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="ViewExplorer" NumberOfTapsRequired="1" />
-                            </StackLayout.GestureRecognizers>
-                            <Image Source="{Binding Source}" WidthRequest="50" MaximumHeightRequest="60" VerticalOptions="CenterAndExpand" />
-                            <StackLayout Margin="5, 0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
-                                <Label Text="{Binding FileName}" />
+                        <SwipeView Margin="0, 2" VerticalOptions="FillAndExpand">
+                            <SwipeView.LeftItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Renomear" BackgroundColor="DeepSkyBlue" Invoked="RenameFile" />
+                                </SwipeItems>
+                            </SwipeView.LeftItems>
+                            
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem Text="Excluir" BackgroundColor="Red" Invoked="DeleteFile" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <StackLayout Padding="10, 0" Orientation="Horizontal" VerticalOptions="FillAndExpand" BackgroundColor="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray700}}">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="OpenFile" NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+
+                                <Image Source="{Binding Source}" WidthRequest="50" MaximumHeightRequest="60" VerticalOptions="CenterAndExpand" />
+
+                                <StackLayout Margin="5, 0" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand">
+                                    <Label Text="{Binding FileName}" />
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
+                        </SwipeView>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
 
-        <Button Text="Ver Arquivos" Clicked="ViewExplorer" />
         <Button Text="Procurar Documento" Clicked="ImportFile" />
     </StackLayout>
 </ContentPage>
