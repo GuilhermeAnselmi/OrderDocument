@@ -14,9 +14,14 @@ public partial class Documents : ContentPage
         FolderName = folderName;
 
         this.Title = FolderName;
+	}
+
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
 
         FillList();
-	}
+    }
 
     #region Internal Methods
     private void FillList()
@@ -119,10 +124,18 @@ public partial class Documents : ContentPage
     {
         var file = (FileModel)((StackLayout)sender).BindingContext;
 
+        //await Share.RequestAsync(new ShareFileRequest()
+        //{
+        //    Title = file.FileName,
+        //    File = new ShareFile(file.Source),
+        //    PresentationSourceBounds = DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Idiom == DeviceIdiom.Tablet ? new Rect(0, 20, 0, 0) : Rect.Zero
+        //});
+
         await Launcher.OpenAsync(new OpenFileRequest()
         {
             Title = file.FileName,
-            File = new ReadOnlyFile(file.Source)
+            File = new ReadOnlyFile(file.Source),
+            PresentationSourceBounds = DeviceInfo.Platform == DevicePlatform.iOS && DeviceInfo.Idiom == DeviceIdiom.Tablet ? new Rect(0, 20, 0, 0) : Rect.Zero
         });
     }
 
