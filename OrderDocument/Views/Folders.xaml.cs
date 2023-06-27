@@ -10,13 +10,21 @@ public partial class Folders : ContentPage
 		InitializeComponent();
 	}
 
-    protected override void OnAppearing()
+    protected override async void OnAppearing()
     {
         base.OnAppearing();
 
         FillList();
+
+        //if (Preferences.ContainsKey("SharedImageUri"))
+        //{
+        //    var imageUri = new Uri(Preferences.Get("SharedImageUri", ""));
+
+        //    Preferences.Clear("SharedImageUri");
+        //}
     }
 
+    #region Private Methods
     private void FillList()
     {
         string path = Common.GetDocumentPath();
@@ -28,6 +36,7 @@ public partial class Folders : ContentPage
 
         listFolder.ItemsSource = listDirectories;
     }
+    #endregion
 
     private async void CreateFolder(object sender, EventArgs e)
     {
